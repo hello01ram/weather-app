@@ -1,0 +1,52 @@
+.weather-app {
+    @apply text-sky-900 max-w-xs font-light;
+}
+
+.today-header {
+    @apply flex;
+}
+
+.today-temp {
+    @apply grid ;
+}
+
+.today-stats {
+    @apply grid content-center ml-auto gap-3;
+}
+
+.today-stats div {
+    @apply grid justify-items-end leading-5; 
+}
+
+.hours-stats {
+    @apply mt-8 py-4 flex overflow-auto  gap-4 border-y border-gray-200;
+}
+
+.hours-stats li {
+    @apply  flex flex-col justify-items-center;
+}
+
+.hours-stats li img {
+    @apply w-8;
+}
+
+.week-stats {
+    @apply mt-4 grid gap-4;
+}
+
+.week-stats li {
+    @apply flex grid-cols-3 gap-6 justify-between;
+}
+
+.week-stats li span {
+    @apply w-28;
+}
+
+
+.week-stats li span:last-of-type {
+    @apply text-right;
+}
+
+.week-stats img {
+    @apply w-8 mx-auto;
+}
