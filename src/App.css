@@ -1,0 +1,39 @@
+.wrapper {
+    @apply flex items-center justify-center h-screen p-12;
+}
+
+.app {
+    @apply text-sky-900 max-w-xs font-light;
+}
+
+.today-header {
+    @apply flex;
+}
+
+.today-temp {
+    @apply grid ;
+}
+
+.today-stats {
+    @apply grid content-center ml-auto gap-3;
+}
+
+.today-stats div {
+    @apply grid justify-items-end leading-5; 
+}
+
+.hours-stats {
+    @apply mt-8 py-4 flex overflow-auto  gap-4 border-y border-gray-200;
+}
+
+.hours-stats li {
+    @apply grid justify-items-center;
+}
+
+.week-stats {
+    @apply mt-4 grid gap-4;
+}
+
+.week-stats li {
+    @apply flex gap-6 justify-between;
+}
