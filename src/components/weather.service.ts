@@ -9,7 +9,7 @@ import { WeatherInterface } from "./weather.interface";
  * @returns a promise resolve to Weather data or throws an error
  */
 async function getWeatherData(lat: string, long: string): Promise<WeatherInterface> {
-    const apiKey = '';
+    const apiKey = process.env.REACT_APP_MyWeatherMapAPIKey // 'e88f0356930e6594cd956e386a22a2af'
     const url = `https://api.openweathermap.org/data/3.0/onecall?`;
     const params = `lat=${lat}&lon=${long}&units=metric&appid=${apiKey}`;
     const response = await fetch(url + params);
@@ -34,23 +34,43 @@ function getLocationCoords(): [lat: string, long: string] {
  * information. 
  * @returns Weather data or undefined.
  */
-export function useWeatherData(): WeatherInterface | undefined {
-    const [weatherData, setWeatherData] = useState<WeatherInterface>();
+export function useWeatherData(): WeatherInterface | Error | undefined {
+    const [weatherData, setWeatherData] = useState<WeatherInterface | Error | undefined>();
     useEffect(() => {
         const [lat, long] = getLocationCoords();
         getWeatherData(lat, long)
             .then(weatherData => {
                 setWeatherData(weatherData);
-            }).catch(e => setWeatherData(undefined));
+            }).catch(e => {setWeatherData(e)});
     }, []);
     return weatherData;
 }
 
+/**
+ * getWeatherIconUrl: Construct weather icon url from the name of icon. 
+ * @param icon name of MyWeatherMap weather icon
+ * @returns URL of weather icon on MyWeatherMap
+ */
 export function getWeatherIconUrl(icon: string): string {
     return `http://openweathermap.org/img/wn/${icon}@2x.png`;
 }
 
-export function getHourFromTimestamp(timestamp: number): {weekDay: string, hourText: string} {
+/**
+ * getUVIndex: Return UV index based on UVI value. 
+ * @param UVI 
+ * @returns 'Low' | 'Moderate' | 'High' | 'Very High' | 'Extreme'
+ */
+export function getUVIndex(UVI: number) {
+    UVI = Math.trunc(UVI);
+    let desc = 'Low';
+    desc = UVI > 2 && UVI < 6 ? 'Moderate' : desc;
+    desc = UVI > 5 && UVI < 8 ? 'High' : desc;
+    desc = UVI > 7 && UVI < 12 ? 'Very High' : desc;
+    desc = UVI > 11 ? 'Extreme' : desc;
+    return desc;
+}
+
+export function getCustomDateObj(timestamp: number): {weekDay: string, hourText: string} {
     const dateObj = {weekDay: '', hourText: ''};
     const weekDays = ['Sunday', 'Monday', 'Tuesday', 'Wedensday', 'Thursday', 'Friday', 'Saturday',];
     const date = (new Date(timestamp * 1000));

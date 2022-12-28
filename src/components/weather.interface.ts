@@ -33,6 +33,7 @@ export interface WeatherInterface {
         wind_speed: number;
         wind_deg: number;
         wind_guest: number;
+        pop: number;
         weather: {
             id: number;
             main: string;
@@ -50,6 +51,7 @@ export interface WeatherInterface {
         wind_deg: number;
         wind_guest: number;
         rain?: number;
+        pop: number;
         temp: {
             day: number;
             min: number;

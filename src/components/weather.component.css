@@ -1,13 +1,9 @@
 .weather-app {
-    @apply text-sky-900 max-w-xs font-light;
-}
-
-.today-header {
-    @apply flex;
+    @apply text-sky-900 max-w-xs font-medium;
 }
 
 .today-temp {
-    @apply grid ;
+    @apply grid font-light;
 }
 
 .today-stats {
@@ -16,6 +12,10 @@
 
 .today-stats div {
     @apply grid justify-items-end leading-5; 
+}
+
+.today-stats div span:last-of-type {
+    @apply text-sm font-light;
 }
 
 .hours-stats {
@@ -30,8 +30,12 @@
     @apply w-8;
 }
 
+.hours-stats li span:last-of-type {
+    @apply text-center;
+}
+
 .week-stats {
-    @apply mt-4 grid gap-4;
+    @apply mt-4 grid gap-2;
 }
 
 .week-stats li {
@@ -42,8 +46,7 @@
     @apply w-28;
 }
 
-
-.week-stats li span:last-of-type {
+.week-stats li > span:last-of-type {
     @apply text-right;
 }
 
