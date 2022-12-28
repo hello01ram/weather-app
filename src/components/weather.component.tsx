@@ -38,7 +38,7 @@ function Weather({ weatherData }: { weatherData: WeatherInterface }) {
             <li key={i}>
               <span>{i === 0 ? 'Today' : getCustomDateObj(dayWeather.dt).weekDay}</span>
               <div className="flex items-center text-sm font-light">
-                {dayWeather.pop * 100}%
+                {(dayWeather.pop * 100).toFixed()}%
                 <img src={getWeatherIconUrl(dayWeather.weather[0].icon)} alt="" />
               </div>
               <span>

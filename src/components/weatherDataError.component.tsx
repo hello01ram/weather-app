@@ -6,7 +6,7 @@ function WeatherDataError() {
             <p>
                 This app uses&nbsp;
                 <a href="https://openweathermap.org/" className="text-blue-600">OpenWeatherMap</a> 
-                &nbsp;API services for weather data.
+                &nbsp;API service for weather data.
             </p>
         </div>
     );

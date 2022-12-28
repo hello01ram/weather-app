@@ -8,12 +8,12 @@ import { WeatherInterface } from "./weather.interface";
  * @param long longitude value
  * @returns a promise resolve to Weather data or throws an error
  */
-async function getWeatherData(lat: string, long: string): Promise<WeatherInterface> {
-    const apiKey = process.env.REACT_APP_MyWeatherMapAPIKey // 'e88f0356930e6594cd956e386a22a2af'
+async function getWeatherData(lat: number, long: number): Promise<WeatherInterface> {
+    const apiKey = process.env.REACT_APP_MyWeatherMapAPIKey;
     const url = `https://api.openweathermap.org/data/3.0/onecall?`;
     const params = `lat=${lat}&lon=${long}&units=metric&appid=${apiKey}`;
     const response = await fetch(url + params);
-    if (!response.ok) 
+    if (!response.ok)
         throw Error('Failed to fetch weather data');
     return response.json();
 }
@@ -21,11 +21,22 @@ async function getWeatherData(lat: string, long: string): Promise<WeatherInterfa
 /**
  * getLocationCoords: Uses geolocation API to request user coordinates. 
  * If user doesn't allow location access, use default Sydney Opera House coordinates
- * @returns a tuple contining user coordinates [lat, long]
+ * @returns a promise that either resolves to an array of latitude and longitude
  */
-function getLocationCoords(): [lat: string, long: string] {
-    // Get user location using geolocation api
-    return ['-33.8567799', '151.2127218'];
+function getLocationCoords(): Promise<[lat: number, long: number]> {
+    const coords: [lat: number, long: number] = [-33.8567799, 151.2127218];
+    return new Promise((resolve, reject) => {
+        if (!navigator.geolocation) return resolve(coords);
+        navigator.geolocation.getCurrentPosition(({ coords: { latitude, longitude } }) => {
+            coords[0] = latitude;
+            coords[1] = longitude;
+            resolve(coords);
+        }, (e) => {
+            // // Comment out the below line if you want to stop default coords (App will not render weather app)
+            // reject(Error(e.message));
+            resolve(coords);
+        });
+    });
 }
 
 /**
@@ -37,11 +48,16 @@ function getLocationCoords(): [lat: string, long: string] {
 export function useWeatherData(): WeatherInterface | Error | undefined {
     const [weatherData, setWeatherData] = useState<WeatherInterface | Error | undefined>();
     useEffect(() => {
-        const [lat, long] = getLocationCoords();
-        getWeatherData(lat, long)
-            .then(weatherData => {
-                setWeatherData(weatherData);
-            }).catch(e => {setWeatherData(e)});
+        getLocationCoords()
+            .then(([lat, long]) => {
+                getWeatherData(lat, long)
+                    .then(weatherData => {
+                        setWeatherData(weatherData);
+                    }).catch(e => { setWeatherData(e) });
+            })
+            .catch((e) => {
+                setWeatherData(e);
+            });
     }, []);
     return weatherData;
 }
@@ -70,8 +86,8 @@ export function getUVIndex(UVI: number) {
     return desc;
 }
 
-export function getCustomDateObj(timestamp: number): {weekDay: string, hourText: string} {
-    const dateObj = {weekDay: '', hourText: ''};
+export function getCustomDateObj(timestamp: number): { weekDay: string, hourText: string } {
+    const dateObj = { weekDay: '', hourText: '' };
     const weekDays = ['Sunday', 'Monday', 'Tuesday', 'Wedensday', 'Thursday', 'Friday', 'Saturday',];
     const date = (new Date(timestamp * 1000));
     const hour = date.getHours();
@@ -79,7 +95,7 @@ export function getCustomDateObj(timestamp: number): {weekDay: string, hourText:
     dateObj.hourText = (hour > 12 ? hour - 12 : hour).toString();
     dateObj.hourText = hour === 0 ? '12' : dateObj.hourText;
     dateObj.hourText += hour >= 12 ? 'pm' : 'am';
-    
+
     dateObj.weekDay = weekDays[date.getDay()];
     return dateObj;
 }
