@@ -4,6 +4,8 @@ A simple React and Typescript weather application.
 
 The App uses [MyWeatherMap](https://openweathermap.org/) API service to get weather data. 
 
+*screenshots folder has screenshot of the running app.*
+
 ## Dependencies
 
 The project uses React with Typescript. It also uses TailwindCSS library for style.
