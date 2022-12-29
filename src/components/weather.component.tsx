@@ -11,7 +11,7 @@ function Weather({ weatherData }: { weatherData: WeatherInterface }) {
         <div className="flex">
           <div className="today-temp">
             <p className="text-9xl">{weatherData.current.temp.toFixed()}&#176;</p>
-            <p className="text-xl text-gray-600 ">{weatherData.current.weather[0].main}</p>
+            <p className="text-xl ">{weatherData.current.weather[0].main}</p>
           </div>
           <div className="today-stats">
             <div><span>Humidity</span><span>{weatherData.current.humidity}%</span></div>

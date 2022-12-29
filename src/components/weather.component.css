@@ -1,5 +1,5 @@
 .weather-app {
-    @apply text-sky-900 max-w-xs font-medium;
+    @apply w-screen h-screen sm:max-w-sm sm:h-auto overflow-auto text-white font-medium bg-indigo-600 p-8 sm:rounded-2xl shadow-xl bg-gradient-to-b from-indigo-600 to-blue-400;
 }
 
 .today-temp {
@@ -19,7 +19,8 @@
 }
 
 .hours-stats {
-    @apply mt-8 py-4 flex overflow-auto  gap-4 border-y border-gray-200;
+    @apply mt-8 flex overflow-auto gap-4 bg-white bg-opacity-30 rounded-xl -mx-4;
+    border: 10px solid transparent;
 }
 
 .hours-stats li {
@@ -35,11 +36,12 @@
 }
 
 .week-stats {
-    @apply mt-4 grid gap-2;
+    @apply mt-4 grid gap-2 -mx-4 -mb-4 bg-white bg-opacity-30 rounded-xl;
+    border: 10px solid transparent;
 }
 
 .week-stats li {
-    @apply flex grid-cols-3 gap-6 justify-between;
+    @apply flex grid-cols-3 justify-between;
 }
 
 .week-stats li span {
